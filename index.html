@@ -689,9 +689,11 @@
     var s=size||22, c=color||'currentColor';
     return '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="'+c+'" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+ (ICONS[name]||'') +'</svg>';
   }
-  // inline icons
+  // inline icons — prepend to elements that also have a text label, else fill
   document.querySelectorAll('[data-ic]').forEach(function(el){
-    el.innerHTML = svg(el.getAttribute('data-ic'), +el.getAttribute('data-ic-size')||20, el.getAttribute('data-ic-color'));
+    var ic = svg(el.getAttribute('data-ic'), +el.getAttribute('data-ic-size')||20, el.getAttribute('data-ic-color'));
+    if (el.textContent.trim().length){ el.insertAdjacentHTML('afterbegin', ic); }
+    else { el.innerHTML = ic; }
   });
   // status bars
   var sig='<span class="sig">'
